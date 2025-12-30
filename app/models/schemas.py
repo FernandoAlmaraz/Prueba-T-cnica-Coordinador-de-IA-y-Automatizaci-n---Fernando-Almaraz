@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
 
 
@@ -49,9 +49,18 @@ class WeatherData(BaseModel):
     visibility: Optional[int] = Field(None, description="Visibilidad en metros")
 
 
+class AIAnalysis(BaseModel):
+    """Análisis generado por IA."""
+    summary: str = Field(..., description="Resumen del clima")
+    recommendations: List[str] = Field(..., description="Recomendaciones para el día")
+    risk_level: str = Field(..., description="Nivel de riesgo: low, medium, high")
+    risk_factors: List[str] = Field(default=[], description="Factores de riesgo identificados")
+
+
 class Metadata(BaseModel):
     """Metadatos de la respuesta."""
     weather_fetch_ms: int = Field(..., description="Tiempo de consulta al API de clima")
+    ai_analysis_ms: Optional[int] = Field(None, description="Tiempo de análisis de IA")
     total_ms: int = Field(..., description="Tiempo total de procesamiento")
     timestamp: datetime = Field(default_factory=datetime.utcnow)
 
@@ -61,6 +70,7 @@ class WeatherResponse(BaseModel):
     
     location: Location
     weather: WeatherData
+    ai_analysis: Optional[AIAnalysis] = None
     metadata: Metadata
     
     class Config:
@@ -83,9 +93,20 @@ class WeatherResponse(BaseModel):
                     "clouds": 40,
                     "visibility": 10000
                 },
+                "ai_analysis": {
+                    "summary": "Clima fresco y agradable en La Paz con cielos parcialmente nublados.",
+                    "recommendations": [
+                        "Llevar una chaqueta ligera",
+                        "Buen día para actividades al aire libre",
+                        "Mantenerse hidratado por la altura"
+                    ],
+                    "risk_level": "low",
+                    "risk_factors": []
+                },
                 "metadata": {
                     "weather_fetch_ms": 245,
-                    "total_ms": 250,
+                    "ai_analysis_ms": 1823,
+                    "total_ms": 2068,
                     "timestamp": "2024-12-30T10:30:00Z"
                 }
             }

@@ -2,27 +2,28 @@ from fastapi import APIRouter, HTTPException
 from datetime import datetime
 import time
 
-from app.models import WeatherRequest, WeatherResponse, Metadata, ErrorResponse
+from app.models import WeatherRequest, WeatherResponse, Metadata, AIAnalysis, ErrorResponse
 from app.services import get_weather_service, WeatherServiceError
+from app.services import get_ai_service, AIServiceError
 
 
 router = APIRouter(prefix="/api/v1/weather", tags=["Weather"])
 
 
 @router.post(
-    "/analyze",
+    "/current",
     response_model=WeatherResponse,
     responses={
         404: {"model": ErrorResponse, "description": "Ciudad no encontrada"},
         503: {"model": ErrorResponse, "description": "Error de conexión"},
         504: {"model": ErrorResponse, "description": "Timeout"}
     },
-    summary="Analizar clima de una ciudad",
-    description="Obtiene datos del clima para una ciudad específica usando OpenWeatherMap."
+    summary="Obtener clima actual",
+    description="Obtiene datos del clima para una ciudad usando OpenWeatherMap."
 )
-async def analyze_weather(request: WeatherRequest) -> WeatherResponse:
+async def get_current_weather(request: WeatherRequest) -> WeatherResponse:
     """
-    Endpoint para obtener y analizar el clima de una ciudad.
+    Endpoint para obtener el clima actual de una ciudad.
     
     - **city**: Nombre de la ciudad (requerido)
     - **country**: Código ISO de 2 letras del país (opcional, ej: BO, US, ES)
@@ -42,8 +43,10 @@ async def analyze_weather(request: WeatherRequest) -> WeatherResponse:
         return WeatherResponse(
             location=location,
             weather=weather,
+            ai_analysis=None,
             metadata=Metadata(
                 weather_fetch_ms=weather_fetch_ms,
+                ai_analysis_ms=None,
                 total_ms=total_ms,
                 timestamp=datetime.utcnow()
             )
@@ -56,10 +59,74 @@ async def analyze_weather(request: WeatherRequest) -> WeatherResponse:
         )
 
 
+@router.post(
+    "/analyze",
+    response_model=WeatherResponse,
+    responses={
+        404: {"model": ErrorResponse, "description": "Ciudad no encontrada"},
+        503: {"model": ErrorResponse, "description": "Error de conexión"},
+        504: {"model": ErrorResponse, "description": "Timeout"}
+    },
+    summary="Analizar clima con IA",
+    description="Obtiene datos del clima y genera análisis inteligente con Gemini."
+)
+async def analyze_weather(request: WeatherRequest) -> WeatherResponse:
+    """
+    Endpoint para obtener y analizar el clima de una ciudad con IA.
+    
+    - **city**: Nombre de la ciudad (requerido)
+    - **country**: Código ISO de 2 letras del país (opcional, ej: BO, US, ES)
+    """
+    start_time = time.perf_counter()
+    
+    weather_service = get_weather_service()
+    ai_service = get_ai_service()
+    
+    # 1. Obtener datos del clima
+    try:
+        location, weather, weather_fetch_ms = await weather_service.get_weather(
+            city=request.city,
+            country=request.country
+        )
+    except WeatherServiceError as e:
+        raise HTTPException(
+            status_code=e.status_code,
+            detail=e.message
+        )
+    
+    # 2. Analizar con IA
+    ai_analysis = None
+    ai_analysis_ms = None
+    
+    try:
+        analysis_dict, ai_analysis_ms = await ai_service.analyze_weather(
+            location=location,
+            weather=weather
+        )
+        ai_analysis = AIAnalysis(**analysis_dict)
+    except AIServiceError as e:
+        print(f"⚠️ Error en análisis de IA: {e.message}")
+    
+    # 3. Construir respuesta
+    total_ms = int((time.perf_counter() - start_time) * 1000)
+    
+    return WeatherResponse(
+        location=location,
+        weather=weather,
+        ai_analysis=ai_analysis,
+        metadata=Metadata(
+            weather_fetch_ms=weather_fetch_ms,
+            ai_analysis_ms=ai_analysis_ms,
+            total_ms=total_ms,
+            timestamp=datetime.utcnow()
+        )
+    )
+
+
 @router.get(
     "/health",
     summary="Health check",
-    description="Verifica que el servicio de clima esté funcionando."
+    description="Verifica que el servicio esté funcionando."
 )
 async def health_check():
     """Health check del servicio."""

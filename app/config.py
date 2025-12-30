@@ -7,10 +7,15 @@ class Settings(BaseSettings):
     
     # API Keys
     openweather_api_key: str
+    gemini_api_key: str
     
     # OpenWeatherMap Config
     openweather_base_url: str = "https://api.openweathermap.org/data/2.5"
     openweather_timeout: float = 10.0
+    
+    # Gemini Config
+    gemini_model: str = "gemini-2.5-flash"
+    gemini_timeout: float = 30.0
     
     # App Config
     app_name: str = "Weather Analysis API"

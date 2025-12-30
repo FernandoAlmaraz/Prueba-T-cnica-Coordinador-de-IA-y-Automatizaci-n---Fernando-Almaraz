@@ -1,4 +1,3 @@
-# Models package
 from app.models.schemas import (
     WeatherRequest,
     WeatherResponse,
@@ -6,6 +5,7 @@ from app.models.schemas import (
     Location,
     Coordinates,
     Metadata,
+    AIAnalysis,
     ErrorResponse
 )
 
@@ -16,5 +16,6 @@ __all__ = [
     "Location",
     "Coordinates",
     "Metadata",
+    "AIAnalysis",
     "ErrorResponse"
 ]
