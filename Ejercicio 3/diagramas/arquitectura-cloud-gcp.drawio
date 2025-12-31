@@ -1,0 +1,269 @@
+<mxfile host="app.diagrams.net" modified="2025-12-31T00:00:00.000Z" agent="5.0" etag="2" version="21.0.0" type="device">
+  <diagram name="Arquitectura Cloud GCP" id="cloud">
+    <mxGraphModel dx="1434" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Título -->
+        <mxCell id="titulo" value="ARQUITECTURA RAG - CLOUD (GCP)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#1F4E79;" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="400" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== FUENTES DE DATOS ========== -->
+        <mxCell id="fuentes_titulo" value="FUENTES DE DATOS" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="140" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cloudstorage" value="Cloud Storage&#xa;(PDF, Excel, Word)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="120" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="gdrive" value="Google Drive&#xa;(Documentos empresa)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="160" width="120" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="bigquery" value="BigQuery&#xa;(Datos estructurados)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="220" width="120" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="confluence_gcp" value="Confluence&#xa;(via Cloud Functions)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="280" width="120" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="sheets" value="Google Sheets&#xa;(Ventas, RRHH, Stock)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="340" width="120" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== VERTEX AI PIPELINE ========== -->
+        <mxCell id="pipeline_titulo" value="VERTEX AI PIPELINES" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="240" y="70" width="160" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="pipeline_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#f09609;strokeWidth=2;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="95" width="200" height="300" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="gcp_logo" value="Google Cloud" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontStyle=2;fontColor=#f09609;" vertex="1" parent="1">
+          <mxGeometry x="220" y="95" width="80" height="15" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="documentai" value="Document AI&#xa;(Extracción OCR)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="250" y="115" width="140" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="vertexpipeline" value="Vertex AI Pipelines&#xa;(Chunking automático)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="250" y="185" width="140" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="vertexembed" value="Vertex AI Embeddings&#xa;(Modelo Google)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="250" y="255" width="140" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="metadata_gcp" value="+ Metadata&#xa;(source, roles, fecha)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="250" y="325" width="140" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Flechas Pipeline interno -->
+        <mxCell id="arrow_p1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;" edge="1" parent="1" source="documentai" target="vertexpipeline">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow_p2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;" edge="1" parent="1" source="vertexpipeline" target="vertexembed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow_p3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;" edge="1" parent="1" source="vertexembed" target="metadata_gcp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== VECTOR STORE ========== -->
+        <mxCell id="vectorstore_titulo" value="VECTOR STORE" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="480" y="70" width="120" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="vectorsearch" value="Vertex AI&#xa;Vector Search&#xa;&#xa;Vectores +&#xa;Metadata +&#xa;Auto-scaling" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="470" y="100" width="140" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== APIS TIEMPO REAL ========== -->
+        <mxCell id="apis_titulo" value="APIs TIEMPO REAL" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="470" y="240" width="140" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cloudfunc" value="Cloud Functions" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontStyle=2;fontColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="470" y="258" width="140" height="15" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="jira_gcp" value="Jira API&#xa;(Tickets, estados)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="470" y="275" width="140" height="45" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="gitlab_gcp" value="GitLab API&#xa;(MRs, pipelines)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="470" y="330" width="140" height="45" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== BACKEND ========== -->
+        <mxCell id="backend_titulo" value="BACKEND" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="670" y="70" width="100" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="backend_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#f09609;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="650" y="95" width="140" height="200" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="gcp_logo2" value="Google Cloud" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=9;fontStyle=2;fontColor=#f09609;" vertex="1" parent="1">
+          <mxGeometry x="650" y="95" width="80" height="15" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="iap" value="Identity-Aware Proxy&#xa;(SSO Google/Microsoft)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="665" y="115" width="110" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="cloudrun" value="Cloud Run&#xa;(Serverless API)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#f09609;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="665" y="165" width="110" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="iam" value="Cloud IAM&#xa;(Roles y permisos)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#f09609;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="665" y="215" width="110" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="secrets" value="Secret Manager&#xa;(API Keys)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff;strokeColor=#f09609;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="665" y="265" width="110" height="25" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== LLM ========== -->
+        <mxCell id="llm_titulo" value="MODELO DE IA" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="670" y="310" width="100" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="gemini" value="Gemini Pro&#xa;(Vertex AI)&#xa;&#xa;Genera respuestas&#xa;con contexto RAG" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="650" y="335" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== USUARIO ========== -->
+        <mxCell id="usuario_titulo" value="INTERFACES" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="870" y="70" width="100" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="webapp_gcp" value="Web App&#xa;(Firebase Hosting)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="850" y="100" width="100" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="slack_gcp" value="Slack Bot&#xa;(Cloud Functions)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="850" y="160" width="100" height="50" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="usuario_gcp" value="Usuario" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#1F4E79;strokeColor=#1F4E79;" vertex="1" parent="1">
+          <mxGeometry x="985" y="115" width="40" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== MONITOREO ========== -->
+        <mxCell id="monitor_titulo" value="MONITOREO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="850" y="230" width="100" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="auditlogs" value="Cloud Audit Logs&#xa;(Auditoría automática)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="850" y="255" width="110" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="monitoring" value="Cloud Monitoring&#xa;(Alertas y métricas)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="850" y="305" width="110" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== FLECHAS PRINCIPALES ========== -->
+        <!-- Fuentes a Pipeline -->
+        <mxCell id="f1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="cloudstorage" target="documentai">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="gdrive" target="documentai">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="bigquery" target="vertexpipeline">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="confluence_gcp" target="vertexembed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="sheets" target="metadata_gcp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Pipeline a Vector Search -->
+        <mxCell id="p_v" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="metadata_gcp" target="vectorsearch">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="350" />
+              <mxPoint x="430" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Vector Search a Backend -->
+        <mxCell id="v_b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="vectorsearch" target="cloudrun">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- APIs a Backend -->
+        <mxCell id="j_b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="1" source="jira_gcp" target="cloudrun">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g_b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="1" source="gitlab_gcp" target="cloudrun">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Backend a LLM -->
+        <mxCell id="b_l" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="cloudrun" target="gemini">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Usuario a Interfaces -->
+        <mxCell id="u_w" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="usuario_gcp" target="webapp_gcp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u_s" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="usuario_gcp" target="slack_gcp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Interfaces a Backend -->
+        <mxCell id="w_b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#f09609;strokeWidth=2;" edge="1" parent="1" source="webapp_gcp" target="iap">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s_b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#f09609;strokeWidth=2;" edge="1" parent="1" source="slack_gcp" target="iap">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- ========== LEYENDA ========== -->
+        <mxCell id="leyenda_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="850" y="360" width="180" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="leyenda_titulo" value="LEYENDA" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="850" y="365" width="180" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="860" y="390" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg1t" value="Fuentes de datos" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="885" y="387" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="860" y="415" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg2t" value="Vertex AI Pipeline" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="885" y="412" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="860" y="440" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg3t" value="Vector Store / LLM" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="885" y="437" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="860" y="465" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="leg4t" value="Seguridad (IAP)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="885" y="462" width="100" height="20" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
