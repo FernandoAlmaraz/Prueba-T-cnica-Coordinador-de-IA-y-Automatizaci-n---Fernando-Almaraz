@@ -10,9 +10,6 @@ services:
       - .env
     environment:
       - PYTHONPATH=/app
-    volumes:
-      # Mount para desarrollo (hot reload)
-      - ./app:/app/app:ro
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/weather/health"]
@@ -20,3 +17,21 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=admin123
+    volumes:
+      - n8n_data:/home/node/.n8n
+    restart: unless-stopped
+    depends_on:
+      - weather-api
+
+volumes:
+  n8n_data:

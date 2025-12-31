@@ -1,0 +1,320 @@
+{
+  "name": "Ejercicio 2",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## NOTA\n**EL URL debe cambiarse a \"/analyze\" ya que esta con \"/current\" porque los tokens de gemini llegaron a su limite**\n",
+        "height": 288,
+        "width": 336
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        80,
+        -96
+      ],
+      "id": "cbb59216-17a3-429d-8032-33d9498beb15",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -320,
+        -48
+      ],
+      "id": "bfbeba16-f7d6-44af-8367-2433248e3091",
+      "name": "Trigger diario 7 AM"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  { city: \"La Paz\", country: \"BO\" },\n  { city: \"Cochabamba\", country: \"BO\" },\n  { city: \"Santa Cruz de la Sierra\", country: \"BO\" },\n  { city: \"Oruro\", country: \"BO\" },\n  { city: \"Potosi\", country: \"BO\" },\n  { city: \"Tarija\", country: \"BO\" },\n  { city: \"Sucre\", country: \"BO\" },\n  { city: \"Trinidad\", country: \"BO\" },\n  { city: \"Cobija\", country: \"BO\" }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -80,
+        -32
+      ],
+      "id": "e5f95760-ac99-44b8-8fc3-e45137ec8bcc",
+      "name": "Lista de ciudades de Bolivia"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://weather-api:8000/api/v1/weather/analyze",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"city\": \"{{ $json.city }}\",\n    \"country\": \"{{ $json.country }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        176,
+        32
+      ],
+      "id": "a25f2920-64ca-463e-9387-a27984ef233c",
+      "name": "Consultar API Clima",
+      "retryOnFail": true,
+      "waitBetweenTries": 500,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1ikDK6dQczUOuQNSVod-k99JfJeL9-1WqE0jD-rvSWY4",
+          "mode": "list",
+          "cachedResultName": "Weather Data Bolivia",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ikDK6dQczUOuQNSVod-k99JfJeL9-1WqE0jD-rvSWY4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ikDK6dQczUOuQNSVod-k99JfJeL9-1WqE0jD-rvSWY4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $json.metadata.timestamp }}",
+            "country": "={{ $json.location.country }}",
+            "city": "={{ $json.location.city }}",
+            "temperature": "={{ $json.weather.temperature }}",
+            "description": "={{ $json.weather.description }}",
+            "humidity": "={{ $json.weather.humidity }}",
+            "wind_speed": "={{ $json.weather.wind_speed }}",
+            "ai_summary": "={{ $json.ai_analysis }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "city",
+              "displayName": "city",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "country",
+              "displayName": "country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "temperature",
+              "displayName": "temperature",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "humidity",
+              "displayName": "humidity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "wind_speed",
+              "displayName": "wind_speed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ai_summary",
+              "displayName": "ai_summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "risk_level",
+              "displayName": "risk_level",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        496,
+        32
+      ],
+      "id": "f1b41294-83f6-4274-927e-b52030af79c9",
+      "name": "Guardar en Google Sheets",
+      "credentials": {
+        "googleApi": {
+          "id": "xHMSJwaz3LTBu2i6",
+          "name": "Google Service Account account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "items",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        704,
+        32
+      ],
+      "id": "89d3e8d5-c047-4077-8396-2470cd9674a6",
+      "name": "Agrupar Resultados"
+    },
+    {
+      "parameters": {
+        "fromEmail": "fernandoalmarazdelaquintana@gmail.com",
+        "toEmail": "fgabo.3@gmail.com",
+        "subject": "=Reporte Clima Bolivia - {{ $now.format('yyyy-MM-dd') }}",
+        "emailFormat": "text",
+        "text": "=Se registraron 9 ciudades de Bolivia en Google Sheets. Fecha: {{ $now }} \nVe reporte : https://docs.google.com/spreadsheets/d/1ikDK6dQczUOuQNSVod-k99JfJeL9-1WqE0jD-rvSWY4/edit?usp=sharing\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        896,
+        16
+      ],
+      "id": "0cc7c760-6b46-4764-ac6f-d2619533cad2",
+      "name": "Notificar por Email",
+      "webhookId": "021a6a60-3c8a-42ba-baf1-1a0298388596",
+      "credentials": {
+        "smtp": {
+          "id": "TjowD6TEU3bjxYay",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Trigger diario 7 AM": {
+      "main": [
+        [
+          {
+            "node": "Lista de ciudades de Bolivia",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lista de ciudades de Bolivia": {
+      "main": [
+        [
+          {
+            "node": "Consultar API Clima",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consultar API Clima": {
+      "main": [
+        [
+          {
+            "node": "Guardar en Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar en Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Agrupar Resultados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agrupar Resultados": {
+      "main": [
+        [
+          {
+            "node": "Notificar por Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/La_Paz",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": -1
+  },
+  "versionId": "2f6887ed-396f-4545-a3e5-02051bdfd765",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "871960c99065ebe83403be2c983ff05af38a95c540bbc9537993ecb1dc8ef60e"
+  },
+  "id": "WLoYJJW2sS4Btzqs",
+  "tags": []
+}
